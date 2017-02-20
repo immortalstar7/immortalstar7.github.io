@@ -1,151 +1,7 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>House Automation</title>
-<link href="css/style.css" rel="stylesheet">
-<style type="text/css">
-
-</style>
-<script type="text/javascript" src="scripts/jquery.js"></script>
-
-<script type="text/javascript" src="scripts/home_automation.js"></script>
-<script>
-
-</script>
-</head>
-
-<body>
-<div id="container">
-    <div id="header">
-    	Automated Home
-    </div>
-    <div id="left-sidebar" >
-    <div id="cpanel">
-    <h2>Control Panel</h2>
-    </div>
-    
-    
-     <div class="mainsbr mainpanel">
-            <div class="sbr" >Temperature
-            </div>
-            <div align="center" class="innersbr tempValue">
-           <input style="width:40px" type="number" name="temp" id="temp" step="1" min="30" max="90" value="42">&deg;F
-             </div>
-                
-          </div>
-    
-    
-        <div class="mainsbr">
-            <div class="sbr">First Bedroom
-            </div>
-            <div class="innersbr">
-          <input name="bedroom1_lights" type="checkbox" id="bedroom1_lights" checked>
-          <label for="bedroom1">Bedside Lamp-On</label>
-             </div>
-             <div class="innersbr">
-          <input name="bedroom1_curtains" type="checkbox" id="bedroom1_curtains" checked>
-          <label for="bedroom1">Curtains-Closed</label>
-             </div>    
-          </div>
-          <div class="mainsbr">
-            <div class="sbr">Second Bedroom
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="bedroom2_lights" id="bedroom2_lights">
-          <label for="bedroom2">Bedside Lamp-On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="bedroom2_curtains" id="bedroom2_curtains">
-          <label for="bedroom2">Front Curtains-Closed</label>
-             </div> 
-               <div class="innersbr">
-          <input type="checkbox" name="bedroom2_curtains_1" id="bedroom2_curtains_1">
-          <label for="bedroom2_1">Side Curtains-Closed</label>
-             </div>   
-          </div>
-          
-          
-          <div class="mainsbr">
-            <div class="sbr" >Living Room
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="livingroom_lights" id="livingroom_lights">
-          <label for="livingroom">Overhead Light-On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="livingroom_curtains" id="livingroom_curtains">
-          <label for="livingroom">Curtains-Closed</label>
-             </div>    
-          </div>
-          
-             <div class="mainsbr">
-            <div class="sbr" >Kitchen
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="kitchen_lights" id="kitchen_lights">
-          <label for="livingroom">Overhead Light-On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="kitchen_curtains" id="kitchen_curtains">
-          <label for="kitchen">Over-Sink Curtains-Closed</label>
-             </div>    
-          </div>
-          
-               <div class="mainsbr">
-            <div class="sbr" >Dining Room
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="dining_lights" id="dining_lights">
-          <label for="dining">Lights On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="dining_curtains" id="dining_curtains">
-          <label for="dining">Curtains Closed</label>
-             </div>    
-          </div>
-          
-            <div class="mainsbr">
-            <div class="sbr" >Bath Room
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="bathroom_lights" id="bathroom_lights">
-          <label for="bathroom">Lights On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="bathroom_curtains" id="bathroom_curtains">
-          <label for="bathroom">Curtains Closed</label>
-             </div>    
-          </div>
-            <div class="mainsbr">
-            <div class="sbr" >Hall
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="hall_lights" id="hall_lights">
-          <label for="hall">Lights On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="hall_curtains" id="hall_curtains">
-          <label for="stairs">Curtains Closed</label>
-             </div>    
-          </div>
-          
-            <div class="mainsbr">
-            <div class="sbr" >Stairs
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="stairs_lights" id="stairs_lights">
-          <label for="stairs">Lights On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="stairs_curtains" id="stairs_curtains">
-          <label for="stairs">Curtains Closed</label>
-             </div>    
-          </div>
-          
-      </div>
-        <div id="content">
-         <svg version="1.1" id="layer1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="layer1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="967.453px" height="832.453px" viewBox="0 0 967.453 832.453" enable-background="new 0 0 967.453 832.453"
 	 xml:space="preserve">
 <g id="Layer_1_1_" display="none">
@@ -175,17 +31,17 @@
 	
 		<polyline id="cl_1_" opacity="0.5" fill="#0DA3A3" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" enable-background="new    " points="
 		352.634,479.051 353.134,380.051 416.134,380.051 415.634,479.051 	"/>
-	<text transform="matrix(1 0 0 1 149.6592 607.3838)" font-family="'ArialMT'" font-size="18">First Bedroom</text>
+	<text transform="matrix(1 0 0 1 149.6592 607.3838)" font-family="'ArialMT'" font-size="18">BEDROOM #1</text>
 	<text transform="matrix(1 0 0 1 154.1089 638.3838)" font-family="'ArialMT'" font-size="18">16’-2’’ X 13’-5’’</text>
-	<text transform="matrix(1 0 0 1 773.8848 489.3838)" font-family="'ArialMT'" font-size="18">Entry </text>
+	<text transform="matrix(1 0 0 1 773.8848 489.3838)" font-family="'ArialMT'" font-size="18">ENTRY </text>
 	
-		<text transform="matrix(1 0 0 1 802.8848 763.3838)" fill="none" stroke="#000000" stroke-miterlimit="10" font-family="'ArialMT'" font-size="18">Stairs </text>
-	<text transform="matrix(1 0 0 1 521.8848 609.0508)" font-family="'ArialMT'" font-size="18">Living Room </text>
+		<text transform="matrix(1 0 0 1 802.8848 763.3838)" fill="none" stroke="#000000" stroke-miterlimit="10" font-family="'ArialMT'" font-size="18">STAIRS </text>
+	<text transform="matrix(1 0 0 1 521.8848 609.0508)" font-family="'ArialMT'" font-size="18">LIVING ROOM </text>
 	<text transform="matrix(1 0 0 1 521.8848 630.6504)" font-family="'ArialMT'" font-size="18">13’-5’’ X 20’-11‘’</text>
-	<text transform="matrix(1 0 0 1 92.8843 164.3838)" font-family="'ArialMT'" font-size="18">Second Bedroom</text>
+	<text transform="matrix(1 0 0 1 92.8843 164.3838)" font-family="'ArialMT'" font-size="18">BEDROOM #2</text>
 	<text transform="matrix(1 0 0 1 92.8843 185.9834)" font-family="'ArialMT'" font-size="18">10’-1‘’ X 13’-5’’</text>
-	<text transform="matrix(1 0 0 1 309.8843 170.3838)" font-family="'ArialMT'" font-size="18">Bath</text>
-	<text transform="matrix(1 0 0 1 333.8843 362.3838)" font-family="'ArialMT'" font-size="18">Hall</text>
+	<text transform="matrix(1 0 0 1 309.8843 170.3838)" font-family="'ArialMT'" font-size="18">BATH</text>
+	<text transform="matrix(1 0 0 1 333.8843 362.3838)" font-family="'ArialMT'" font-size="18">HALL</text>
 	<polyline fill="none" stroke="#0C0B0B" stroke-width="0.5" stroke-miterlimit="10" points="309.884,47.384 401.884,47.384 
 		401.884,95.384 309.884,95.384 	"/>
 	<path fill="none" stroke="#0C0B0B" stroke-width="0.5" stroke-miterlimit="10" d="M318.009,96.509c-13.807,0-25-10.193-25-24
@@ -237,7 +93,7 @@
 	<g>
 		<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M462.884,191.134c0,3.3-2.7,6-6,6h-33c-3.3,0-6-2.7-6-6v-41.5
 			c0-3.3,2.7-6,6-6h33c3.3,0,6,2.7,6,6V191.134z"/>
-		<text transform="matrix(1 0 0 1 664.1367 135.3838)" font-family="'ArialMT'" font-size="18">Dining Room </text>
+		<text transform="matrix(1 0 0 1 664.1367 135.3838)" font-family="'ArialMT'" font-size="18">DINING ROOM </text>
 		<text transform="matrix(1 0 0 1 674.1123 156.9834)" font-family="'ArialMT'" font-size="18">9-6’’ X 10’-4’’</text>
 	</g>
 	<polyline id="misc" fill="#D35959" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" points="741.884,366.384 
@@ -268,19 +124,11 @@
 		<line fill="none" stroke="#1E0707" stroke-width="4" stroke-miterlimit="10" x1="804.884" y1="368.384" x2="832.884" y2="368.384"/>
 	
 		<rect x="10.498" y="14.997" fill="none" stroke="#000000" stroke-width="5" stroke-miterlimit="10" width="943.453" height="806.959"/>
-	<text transform="matrix(1 0 0 1 501.8887 181.3838)" font-family="'ArialMT'" font-size="18">Kitchen</text>
+	<text transform="matrix(1 0 0 1 501.8887 181.3838)" font-family="'ArialMT'" font-size="18">KITCHEN</text>
 	<text transform="matrix(1 0 0 1 501.8887 202.9834)" font-family="'ArialMT'" font-size="18">7’-9’’ X 11’</text>
-	<text transform="matrix(1 0 0 1 66.4146 438.3818)" font-family="'ArialMT'" font-size="18">Store #1</text>
-	<text transform="matrix(1 0 0 1 192.4346 423.2178)" font-family="'ArialMT'" font-size="18">Store #2</text>
-	<text transform="matrix(1 0 0 1 357.3838 438.3818)" font-family="'ArialMT'" font-size="12">Store #3</text>
+	<text transform="matrix(1 0 0 1 66.4146 438.3818)" font-family="'ArialMT'" font-size="18">STORE 1</text>
+	<text transform="matrix(1 0 0 1 192.4346 423.2178)" font-family="'ArialMT'" font-size="18">STORE 2</text>
+	<text transform="matrix(1 0 0 1 357.3838 438.3818)" font-family="'ArialMT'" font-size="12">STORE 3</text>
 	<rect x="739.884" y="367.384" fill="#FFFFFF" stroke="#0C0B0B" stroke-miterlimit="10" width="95" height="90"/>
 </g>
 </svg>
-
-        </div>
-        <div id="footer">
-        </div>
-  </div>
-</div>
-</body>
-</html>

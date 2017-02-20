@@ -1,0 +1,96 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+    margin: 0;
+	font:Verdana, Geneva, sans-serif;
+ 
+}
+@font-face {
+ font-family:chasinghearts;
+ src: url("fonts/Chasing_Hearts.eot"); /* EOT file for IE */
+}
+
+@font-face {
+ font-family:chasinghearts;
+ src: url("fonts/Chasing_Hearts.ttf"); /* TTF file for CSS3 browsers */
+}
+
+ #header {
+    width: 100%;
+    height: 100px;
+    background: #4a4a4a;
+    color: #fff;
+    font-size: 34px;
+    font-weight: 300;
+    text-shadow: #111 0px 0px 10px;
+    font-family: -webkit-pictograph;
+    font-style: italic;
+    text-align: center;
+    line-height: 2.8;
+}
+
+#container {
+    width: 1320px;
+    margin: 0 auto;
+	min-width:100%; 
+}
+
+.mainsbr {
+    margin:10px;	 
+}
+
+.mainpanel {
+    display: flex;
+}
+
+.tempValue {
+    padding-left: 10px;
+}
+
+.sbr{
+	padding-left: 20px;
+	text-align:left;
+	font-weight: bold;	
+}
+
+#cpanel{
+	text-align:center;
+	font-weight: bold;	
+}
+
+#left-sidebar { 
+    width: 200px;
+    padding: 10px;
+    float: left;
+    background: #fff;
+}
+ 
+#content {
+    width: 970px;
+    padding: 10px;
+    float: left;
+    background: #ccc;
+}
+
+#footer {
+    clear: both;
+    width: 100%;
+    height: 150px;
+    background: #3b5998;
+}
+
+#cpanel {
+    font-family:chasinghearts;
+}
+
+.inp-checkbox+label {
+    width:16px; 
+    height:16px; 
+    vertical-align:middle;
+}​
+
+
+.innersbr {
+    display: flex;
+    margin-top:15px;
+}
