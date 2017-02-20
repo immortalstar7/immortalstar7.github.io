@@ -322,7 +322,7 @@ if(!dining_lightson && !dining_curtainsopen)
 		dining_svg.setAttribute("fill","#7C91F1");
 	}
   // POST data to server and recieve response
-  /*
+  
  $.post( 
                   "test.php",
                   {cpanel:JSON.stringify ({
@@ -338,9 +338,8 @@ if(!dining_lightson && !dining_curtainsopen)
 				  })},
                   function(data) {
                      $('#stage').html(data);
-					 alert(data);
                   }
                );
 			    
-	*/
+	
 };
