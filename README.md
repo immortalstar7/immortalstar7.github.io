@@ -1,3 +1,4 @@
+<h2>Demo Link: https://immortalstar7.github.io/</h2>
 <p>
  A JavaScript application simulating house automation: pressing a button on a control panel would visually turn on a light, change the temperature or close the curtains. Some constraints: 
 </p>
