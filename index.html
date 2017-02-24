@@ -1,288 +1,92 @@
-<!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>House Automation</title>
-<link href="css/style.css" rel="stylesheet">
-<style type="text/css">
+  <!--Load the AJAX API-->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="bower_components/underscore/underscore-min.js"></script>
+  <script src="bower_components/backbone/backbone.js"></script>
+  <script type="text/javascript">
+  window.onload = function () {
+    var Item = Backbone.Model.extend();
+    var List = Backbone.Collection.extend({
+      model: Item,
+      url: "./report.json", //url to send a get request to fetch all json
+      parse: function(data) {
+        return data.records; // store just the record property in our model for usage in collection
+      }
+    });
+    var ChartView = Backbone.View.extend({
+      el: $('body'), //the element to which we need to render our html
+      events: { //all our events
+        'change select#types': 'drawChart' // a change event on any html type, `click button#buttonid` can also be used for click event
+      },
+      initialize: function(){ // main constructor function, will be executed first
+        var self = this
+        this.collection = new List(); // create a new collection named List
+        this.render(); //render our view
+      },
+      render: function(){
+        var self = this;
+        _.bindAll(this, 'render', 'getData', 'drawChart') //bind all functions to this for usage in other areas of view
+        // select element appended to body
+        $(this.el).append('<select id="types">'+
+        '<option value="sales">Overall Sales</option>'+
+        '<option value="orders">Overall Orders</option>'+
+        '<option value="clickThruRate">Click Thru Rate</option>'+
+        '<option value="pageViews">Page Views</option>'+
+        '</select>');
+        // line chart div tag appended to body to render chart on later
+        $(this.el).append('<div id="linechart"></div>');
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {'packages':['line']});
+        // Set a callback self.drawChart to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(self.drawChart);
+      },
+      getData: function(){
+        //ajax GET request initiated, use save() instead of fetch() for POST request
+        return this.collection.fetch()
+      },
+      drawChart: function () {
+        //call the ajax method
+        this.getData()
+        .then(function (response) {
+          var records = response.records;
+          var type = $('#types').val();
+          var typeName = $('#types option:selected').text()
+          // create google visualization dataTable instance to populate chart
+          var data = new google.visualization.DataTable();
+          data.addColumn('date', 'Date');
+          data.addColumn('number', typeName);
 
-</style>
-<script type="text/javascript" src="scripts/jquery.js"></script>
+          // loop through all data from json file and add it to our dataTable
+          records.forEach(function (record) {
+            data.addRow([new Date(record.date), record[type]])
+          })
 
-<script type="text/javascript" src="scripts/home_automation.js"></script>
-<script>
+          //chart options, can be extended to modify chart and style it
+          var options = {
+            chart: {
+              title: typeName
+            },
+            width: 900,
+            height: 500,
+          };
+          // applying google chart to our element
+          var chart = new google.charts.Line(document.getElementById('linechart'));
+          //drawing data on chart
+          chart.draw(data, options);
+        })
+      }
 
-</script>
+    });
+    // start rendering our view, our first step to initializing chart and its options
+    var chart_view = new ChartView()
+  }
+
+  </script>
 </head>
 
 <body>
-<div id="container">
-    <div id="header">
-    	Automated Home
-    </div>
-    <div id="left-sidebar" >
-    <div id="cpanel">
-    <h2>Control Panel</h2>
-    </div>
-    
-    
-     <div class="mainsbr mainpanel">
-            <div class="sbr" >Temperature
-            </div>
-            <div align="center" class="innersbr tempValue">
-           <input style="width:40px" type="number" name="temp" id="temp" step="1" min="30" max="90" value="42">&deg;F
-             </div>
-                
-          </div>
-    
-    
-        <div class="mainsbr">
-            <div class="sbr">First Bedroom
-            </div>
-            <div class="innersbr">
-          <input name="bedroom1_lights" type="checkbox" id="bedroom1_lights" checked>
-          <label for="bedroom1">Bedside Lamp-On</label>
-             </div>
-             <div class="innersbr">
-          <input name="bedroom1_curtains" type="checkbox" id="bedroom1_curtains" checked>
-          <label for="bedroom1">Curtains-Closed</label>
-             </div>    
-          </div>
-          <div class="mainsbr">
-            <div class="sbr">Second Bedroom
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="bedroom2_lights" id="bedroom2_lights">
-          <label for="bedroom2">Bedside Lamp-On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="bedroom2_curtains" id="bedroom2_curtains">
-          <label for="bedroom2">Front Curtains-Closed</label>
-             </div> 
-               <div class="innersbr">
-          <input type="checkbox" name="bedroom2_curtains_1" id="bedroom2_curtains_1">
-          <label for="bedroom2_1">Side Curtains-Closed</label>
-             </div>   
-          </div>
-          
-          
-          <div class="mainsbr">
-            <div class="sbr" >Living Room
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="livingroom_lights" id="livingroom_lights">
-          <label for="livingroom">Overhead Light-On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="livingroom_curtains" id="livingroom_curtains">
-          <label for="livingroom">Curtains-Closed</label>
-             </div>    
-          </div>
-          
-             <div class="mainsbr">
-            <div class="sbr" >Kitchen
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="kitchen_lights" id="kitchen_lights">
-          <label for="livingroom">Overhead Light-On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="kitchen_curtains" id="kitchen_curtains">
-          <label for="kitchen">Over-Sink Curtains-Closed</label>
-             </div>    
-          </div>
-          
-               <div class="mainsbr">
-            <div class="sbr" >Dining Room
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="dining_lights" id="dining_lights">
-          <label for="dining">Lights On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="dining_curtains" id="dining_curtains">
-          <label for="dining">Curtains Closed</label>
-             </div>    
-          </div>
-          
-            <div class="mainsbr">
-            <div class="sbr" >Bath Room
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="bathroom_lights" id="bathroom_lights">
-          <label for="bathroom">Lights On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="bathroom_curtains" id="bathroom_curtains">
-          <label for="bathroom">Curtains Closed</label>
-             </div>    
-          </div>
-            <div class="mainsbr">
-            <div class="sbr" >Hall
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="hall_lights" id="hall_lights">
-          <label for="hall">Lights On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="hall_curtains" id="hall_curtains">
-          <label for="stairs">Curtains Closed</label>
-             </div>    
-          </div>
-          
-            <div class="mainsbr">
-            <div class="sbr" >Stairs
-            </div>
-            <div class="innersbr">
-          <input type="checkbox" name="stairs_lights" id="stairs_lights">
-          <label for="stairs">Lights On</label>
-             </div>
-             <div class="innersbr">
-          <input type="checkbox" name="stairs_curtains" id="stairs_curtains">
-          <label for="stairs">Curtains Closed</label>
-             </div>    
-          </div>
-          
-      </div>
-        <div id="content">
-         <svg version="1.1" id="layer1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="967.453px" height="832.453px" viewBox="0 0 967.453 832.453" enable-background="new 0 0 967.453 832.453"
-	 xml:space="preserve">
-<g id="Layer_1_1_" display="none">
-</g>
-<g id="hh">
-	<polyline id="bedroom2" fill="#D35959" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" points="25.884,367.384 
-		25.884,29.384 288.884,29.384 288.884,367.384 	"/>
-	
-		<rect id="stairs" x="741.884" y="457.384" fill="#841A1A" stroke="#000000" stroke-width="4" stroke-miterlimit="10" enable-background="new    " width="193" height="351.334"/>
-	<polyline id="bedroom1" fill="#5A81D1" fill-opacity="0.9" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" points="
-		417.884,477.199 417.884,808.718 25.884,808.718 25.884,477.199 	"/>
-	
-		<rect id="livingroom" x="417.884" y="308.384" fill="#D35959" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" enable-background="new    " width="324" height="500.334"/>
-	
-		<polyline id="bathroom" fill="#C68B8B" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" enable-background="new    " points="
-		288.884,29.384 288.884,287.051 345.884,287.051 345.884,245.622 413.884,245.622 414.884,29.384 	"/>
-	<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="288.884" y1="29.384" x2="414.884" y2="29.384"/>
-	
-		<polyline opacity="0.5" fill="#C68B8B" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" enable-background="new    " points="
-		25.884,479.051 25.884,366.384 174.884,366.384 174.884,479.051 	"/>
-	<polyline fill="#D35959" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" points="288.884,367.384 288.884,479.051 
-		174.884,479.051 174.884,367.384 	"/>
-	
-		<rect x="345.884" y="245.622" opacity="0.5" fill="#D35959" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" enable-background="new    " width="69" height="61.762"/>
-	<path fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" d="M345.884,284.384"/>
-	<path fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" d="M288.884,284.384"/>
-	
-		<polyline id="cl_1_" opacity="0.5" fill="#0DA3A3" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" enable-background="new    " points="
-		352.634,479.051 353.134,380.051 416.134,380.051 415.634,479.051 	"/>
-	<text transform="matrix(1 0 0 1 149.6592 607.3838)" font-family="'ArialMT'" font-size="18">First Bedroom</text>
-	<text transform="matrix(1 0 0 1 154.1089 638.3838)" font-family="'ArialMT'" font-size="18">16’-2’’ X 13’-5’’</text>
-	<text transform="matrix(1 0 0 1 773.8848 489.3838)" font-family="'ArialMT'" font-size="18">Entry </text>
-	
-		<text transform="matrix(1 0 0 1 802.8848 763.3838)" fill="none" stroke="#000000" stroke-miterlimit="10" font-family="'ArialMT'" font-size="18">Stairs </text>
-	<text transform="matrix(1 0 0 1 521.8848 609.0508)" font-family="'ArialMT'" font-size="18">Living Room </text>
-	<text transform="matrix(1 0 0 1 521.8848 630.6504)" font-family="'ArialMT'" font-size="18">13’-5’’ X 20’-11‘’</text>
-	<text transform="matrix(1 0 0 1 92.8843 164.3838)" font-family="'ArialMT'" font-size="18">Second Bedroom</text>
-	<text transform="matrix(1 0 0 1 92.8843 185.9834)" font-family="'ArialMT'" font-size="18">10’-1‘’ X 13’-5’’</text>
-	<text transform="matrix(1 0 0 1 309.8843 170.3838)" font-family="'ArialMT'" font-size="18">Bath</text>
-	<text transform="matrix(1 0 0 1 333.8843 362.3838)" font-family="'ArialMT'" font-size="18">Hall</text>
-	<polyline fill="none" stroke="#0C0B0B" stroke-width="0.5" stroke-miterlimit="10" points="309.884,47.384 401.884,47.384 
-		401.884,95.384 309.884,95.384 	"/>
-	<path fill="none" stroke="#0C0B0B" stroke-width="0.5" stroke-miterlimit="10" d="M318.009,96.509c-13.807,0-25-10.193-25-24
-		c0-13.807,11.193-25,25-25"/>
-	<path fill="none" stroke="#0C0B0B" stroke-width="0.5" stroke-miterlimit="10" d="M309.884,48.867"/>
-	<circle fill="#0F0808" stroke="#0C0B0B" stroke-width="0.5" stroke-miterlimit="10" cx="391.884" cy="72.009" r="3"/>
-	<rect x="371.884" y="114.384" fill="none" stroke="#0C0B0B" stroke-width="0.5" stroke-miterlimit="10" width="36" height="63"/>
-	<rect x="387.384" y="181.384" fill="none" stroke="#0C0B0B" stroke-width="0.5" stroke-miterlimit="10" width="17.5" height="36"/>
-	<ellipse fill="none" stroke="#0C0B0B" stroke-width="0.5" stroke-miterlimit="10" cx="367.384" cy="199.384" rx="17" ry="12"/>
-	
-		<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="352.634" y1="479.051" x2="288.884" y2="479.051"/>
-	
-		<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="288.884" y1="479.051" x2="288.884" y2="284.384"/>
-	
-		<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="414.884" y1="307.384" x2="414.884" y2="380.051"/>
-	
-		<polyline id="hall" opacity="0.5" fill="#C62626" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" enable-background="new    " points="
-		288.884,479.051 353.134,479.051 353.134,380.051 414.884,380.051 414.884,307.384 345.884,307.384 345.884,284.384 
-		288.884,284.384 	"/>
-	
-		<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="288.884" y1="479.051" x2="288.884" y2="284.384"/>
-	<path fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" d="M174.884,479.051"/>
-	<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="26.884" y1="479.051" x2="72.884" y2="479.051"/>
-	
-		<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="128.884" y1="479.051" x2="174.884" y2="479.051"/>
-	<polyline id="kitchen" fill="#D35959" fill-opacity="0.5" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" points="
-		606.384,307.884 413.384,307.884 413.384,28.884 606.384,28.884 	"/>
-	<path fill="#D35959" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" d="M607.884,105.384"/>
-	<circle fill="none" stroke="#000000" stroke-miterlimit="10" cx="429.884" cy="158.217" r="9"/>
-	<circle fill="none" stroke="#000000" stroke-miterlimit="10" cx="429.884" cy="185.384" r="9"/>
-	<circle fill="none" stroke="#000000" stroke-miterlimit="10" cx="451.384" cy="157.8" r="9"/>
-	<circle fill="none" stroke="#000000" stroke-miterlimit="10" cx="451.384" cy="184.967" r="9"/>
-	<g>
-		<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M548.884,81.384c0,3.3-2.7,6-6,6h-44c-3.3,0-6-2.7-6-6V51.867
-			c0-3.3,2.7-6,6-6h44c3.3,0,6,2.7,6,6V81.384z"/>
-	</g>
-	<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="493.884" y1="86.384" x2="544.884" y2="46.384"/>
-	<circle stroke="#000000" stroke-miterlimit="10" cx="518.384" cy="67.384" r="4.5"/>
-	<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="493.884" y1="48.867" x2="548.884" y2="86.384"/>
-	<path fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" d="M606.384,307.884"/>
-	<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="606.384" y1="28.884" x2="606.384" y2="105.384"/>
-	
-		<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="606.384" y1="164.384" x2="606.384" y2="307.884"/>
-	<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="606.384" y1="28.884" x2="845.884" y2="29.384"/>
-	
-		<polyline id="dining" fill="#1431C1" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" enable-background="new    " points="
-		845.884,28.883 845.884,292.913 741.884,292.913 741.884,308.384 606.384,307.868 607.884,28.883 612.884,28.883 845.884,28.883 	
-		"/>
-	<g>
-		<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M462.884,191.134c0,3.3-2.7,6-6,6h-33c-3.3,0-6-2.7-6-6v-41.5
-			c0-3.3,2.7-6,6-6h33c3.3,0,6,2.7,6,6V191.134z"/>
-		<text transform="matrix(1 0 0 1 664.1367 135.3838)" font-family="'ArialMT'" font-size="18">Dining Room </text>
-		<text transform="matrix(1 0 0 1 674.1123 156.9834)" font-family="'ArialMT'" font-size="18">9-6’’ X 10’-4’’</text>
-	</g>
-	<polyline id="misc" fill="#D35959" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" points="741.884,366.384 
-		741.884,366.384 741.884,292.913 741.884,292.913 834.884,292.913 834.884,292.913 834.884,366.384 834.884,366.384 	"/>
-	<path fill="#D35959" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" d="M813.884,367.384"/>
-	<path fill="#D35959" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" d="M813.884,367.384"/>
-	
-		<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="834.884" y1="366.384" x2="834.884" y2="457.384"/>
-	
-		<line fill="none" stroke="#0C0B0B" stroke-width="4" stroke-miterlimit="10" x1="834.884" y1="457.384" x2="934.884" y2="457.384"/>
-	<rect x="751.884" y="554.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="751.884" y="580.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="751.884" y="606.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="752.884" y="632.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="752.884" y="658.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="752.884" y="684.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="752.884" y="710.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="840.884" y="555.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="840.884" y="581.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="840.884" y="607.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="841.884" y="633.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="841.884" y="659.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="841.884" y="685.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	<rect x="841.884" y="711.384" fill="none" stroke="#1E0707" stroke-miterlimit="10" width="81" height="22"/>
-	
-		<line fill="none" stroke="#1E0707" stroke-width="4" stroke-miterlimit="10" x1="739.884" y1="367.384" x2="767.884" y2="367.384"/>
-	
-		<line fill="none" stroke="#1E0707" stroke-width="4" stroke-miterlimit="10" x1="804.884" y1="368.384" x2="832.884" y2="368.384"/>
-	
-		<rect x="10.498" y="14.997" fill="none" stroke="#000000" stroke-width="5" stroke-miterlimit="10" width="943.453" height="806.959"/>
-	<text transform="matrix(1 0 0 1 501.8887 181.3838)" font-family="'ArialMT'" font-size="18">Kitchen</text>
-	<text transform="matrix(1 0 0 1 501.8887 202.9834)" font-family="'ArialMT'" font-size="18">7’-9’’ X 11’</text>
-	<text transform="matrix(1 0 0 1 66.4146 438.3818)" font-family="'ArialMT'" font-size="18">Store #1</text>
-	<text transform="matrix(1 0 0 1 192.4346 423.2178)" font-family="'ArialMT'" font-size="18">Store #2</text>
-	<text transform="matrix(1 0 0 1 357.3838 438.3818)" font-family="'ArialMT'" font-size="12">Store #3</text>
-	<rect x="739.884" y="367.384" fill="#FFFFFF" stroke="#0C0B0B" stroke-miterlimit="10" width="95" height="90"/>
-</g>
-</svg>
 
-        </div>
-        <div id="footer">
-        <div class='credits'>Home Automation Panel maintained by <a href='https://github.com/immortalstar7/homeautomation' class='link'>Dhrumit Sheth</a></div>
-					<div>Published with GitHub Pages</div>
-        </div>
-  </div>
-</div>
 </body>
 </html>
