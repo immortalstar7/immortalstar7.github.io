@@ -1,0 +1,14 @@
+{
+  "name": "backbone-chart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -a localhost -p 8000 -c-1 ."
+  },
+  "author": "Faraz (frzk410@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^0.9.0"
+  }
+}
